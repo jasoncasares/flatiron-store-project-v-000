@@ -2,6 +2,14 @@
   <%= link_to category.title, category_path(category) %>
 <% end %>
 
-<% @items.each do |item| %>
-  <p><%= item.title %> | <%= number_to_currency(item.price) %> | <%= button_to 'Add to Cart', line_items_path(item_id: item) %></p>
+<% if user_signed_in? %>
+  <% @items.each do |item| %>
+    <p><%= item.title %> |
+    <%= "$#{item.price.to_f/100}" %> |
+    <%= button_to 'Add to Cart', line_items_path(item_id: item) %></p>
+  <% end %>
+<% else %>
+  <% @items.each do |item| %>
+    <p><%= item.title %> | <%= "$#{item.price.to_f/100}" %></p>
+  <% end %>
 <% end %>
